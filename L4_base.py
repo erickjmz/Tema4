@@ -7,13 +7,16 @@ from scipy import stats
 import matplotlib.pyplot as plt
 
 # Variables aleatorias A y Z
-vaA = stats.norm(3, np.sqrt(10))
-vaZ = stats.uniform(-np.pi/2, np.pi)
+vaA = stats.norm(5, np.sqrt(0.2))
+vaZ = stats.uniform(0, np.pi/2)
 
 # Creación del vector de tiempo
 T = 100			# número de elementos
 t_final = 10	# tiempo en segundos
 t = np.linspace(0, t_final, T)
+
+# Considerando que Omega tiene un intervalo pequeño, entonces le asignamos el punto medio 
+C = (2*np.pi*(59.1)+2*np.pi*60.1)/2
 
 # Inicialización del proceso aleatorio X(t) con N realizaciones
 N = 10
@@ -23,7 +26,7 @@ X_t = np.empty((N, len(t)))	# N funciones del tiempo x(t) con T puntos
 for i in range(N):
 	A = vaA.rvs()
 	Z = vaZ.rvs()
-	x_t = A * np.cos(np.pi*t + Z)
+	x_t = A * np.cos(C*t + Z)
 	X_t[i,:] = x_t
 	plt.plot(t, x_t)
 
@@ -32,7 +35,7 @@ P = [np.mean(X_t[:,i]) for i in range(len(t))]
 plt.plot(t, P, lw=6)
 
 # Graficar el resultado teórico del valor esperado
-E = 6/np.pi * np.cos(np.pi*t)
+E = 10/np.pi * (np.cos(C*t)-np.sin(C*t))
 plt.plot(t, E, '-.', lw=4)
 
 # Mostrar las realizaciones, y su promedio calculado y teórico
@@ -56,9 +59,12 @@ for n in range(N):
 	for i, tau in enumerate(desplazamiento):
 		corr[n, i] = np.correlate(X_t[n,:], np.roll(X_t[n,:], tau))/T
 	plt.plot(taus, corr[n,:])
+	
+# Considerando el valor de omega ahora igual el promedio
+O = (np.pi/2 + 0)/2
 
 # Valor teórico de correlación
-Rxx = 19/2 * np.cos(np.pi*taus)
+Rxx = 25.2 * np.cos(C*t + O)*np.cos(C*(t+taus)+O)
 
 # Gráficas de correlación para cada realización y la
 plt.plot(taus, Rxx, '-.', lw=4, label='Correlación teórica')
