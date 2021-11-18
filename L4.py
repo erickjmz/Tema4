@@ -26,7 +26,7 @@ X_t = np.empty((N, len(t)))	# N funciones del tiempo x(t) con T puntos
 for i in range(N):
 	A = vaA.rvs()
 	Z = vaZ.rvs()
-	x_t = A * np.cos(C*t + Z)
+		x_t = A * np.cos(O*t + Z)
 	X_t[i,:] = x_t
 	plt.plot(t, x_t)
 
