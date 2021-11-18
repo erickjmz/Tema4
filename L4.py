@@ -16,7 +16,7 @@ t_final = 10	# tiempo en segundos
 t = np.linspace(0, t_final, T)
 
 # Considerando que Omega tiene un intervalo pequeño, entonces le asignamos el punto medio 
-C = (2*np.pi*(59.1)+2*np.pi*60.1)/2
+O = (2*np.pi*(59.1)+2*np.pi*60.1)/2
 
 # Inicialización del proceso aleatorio X(t) con N realizaciones
 N = 10
@@ -35,7 +35,7 @@ P = [np.mean(X_t[:,i]) for i in range(len(t))]
 plt.plot(t, P, lw=6)
 
 # Graficar el resultado teórico del valor esperado
-E = 10/np.pi * (np.cos(C*t)-np.sin(C*t))
+E = 10/np.pi * (np.cos(O*t)-np.sin(O*t))
 plt.plot(t, E, '-.', lw=4)
 
 # Mostrar las realizaciones, y su promedio calculado y teórico
@@ -61,10 +61,10 @@ for n in range(N):
 	plt.plot(taus, corr[n,:])
 	
 # Considerando el valor de omega ahora igual el promedio
-O = (np.pi/2 + 0)/2
+Th = (np.pi/2 + 0)/2
 
 # Valor teórico de correlación
-Rxx = 25.2 * np.cos(C*t + O)*np.cos(C*(t+taus)+O)
+Rxx = 25.2 * np.cos(O*t + Th)*np.cos(O*(t+taus)+Th)
 
 # Gráficas de correlación para cada realización y la
 plt.plot(taus, Rxx, '-.', lw=4, label='Correlación teórica')
